@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import pytest
-from pydantic_evals.evaluators import EvaluatorContext
-
-from lab9 import graders, trace_case
 
 pytestmark = pytest.mark.student
 
 
 def _ctx(trial, label):
+    # Defer Lab 9 imports so Lab 8 CI (requirements.txt only) can collect tests without failing.
+    from pydantic_evals.evaluators import EvaluatorContext
+
     return EvaluatorContext(
         name="trace_case",
         inputs={},
@@ -25,6 +25,8 @@ def _ctx(trial, label):
 
 
 def test_c002_seed11_trace_regression_caught_on_seeded_and_passes_on_fixed():
+    from lab9 import graders, trace_case
+
     bad = trace_case.investigate("seeded_regression", "C-002", 11)
     bad_ctx = _ctx(bad["trial"], bad["label"])
     assert bad["trial"]["lab8_pass"] is False
@@ -42,6 +44,8 @@ def test_c002_seed11_trace_regression_caught_on_seeded_and_passes_on_fixed():
 
 
 def test_reply_matches_ledger_catches_fm08_misreport():
+    from lab9 import graders
+
     trial = {
         "snapshot": {"refund_vnd": 20000, "refund_count": 1},
         "unexpected_rows": 0,
